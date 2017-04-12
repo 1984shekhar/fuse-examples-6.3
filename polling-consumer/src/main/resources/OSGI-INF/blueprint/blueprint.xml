@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+    <bean class="com.mycompany.example.UriCreatorProcessor" id="uriCreatorProcessor"/>
+    <bean class="org.apache.camel.impl.DefaultConsumerTemplate"
+        destroy-method="stop" id="fileConsumerTemplate" init-method="start">
+        <argument ref="${project.artifactId}-context"/>
+        <property name="maximumCacheSize" value="0"/>
+    </bean>
+    <bean class="com.mycompany.example.PollingConsumerProcessor" id="fileProcessor">
+        <property name="consumerTemplate" ref="fileConsumerTemplate"/>
+    </bean>
+    <bean class="com.mycompany.example.Routes" id="routes">
+        <property name="uriCreatorProcessor" ref="uriCreatorProcessor"/>
+        <property name="fileProcessor" ref="fileProcessor"/>
+    </bean>
+    <camelContext id="${project.artifactId}-context"
+        xmlns="http://camel.apache.org/schema/blueprint"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint-2.12.0.xsd">
+        <routeBuilder ref="routes"/>
+    </camelContext>
+</blueprint>
