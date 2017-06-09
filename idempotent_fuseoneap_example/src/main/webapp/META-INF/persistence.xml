@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             version="2.0"
+             xsi:schemaLocation="
+             http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+             
+<persistence-unit name="idempotentDb" transaction-type="RESOURCE_LOCAL">
+  <class>org.apache.camel.processor.idempotent.jpa.MessageProcessed</class>
+  <properties>
+  <!--   <property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/test"/>
+    <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
+    <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema"/>
+    <property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO"/>
+    <property name="openjpa.Multithreaded" value="true"/> -->
+    
+     <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test" />
+      <property name="javax.persistence.jdbc.user" value="root" />
+      <property name="javax.persistence.jdbc.password" value="root" />
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+    
+    <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+            <property name="hibernate.max_fetch_depth" value="3" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.show_sql" value="true" />
+      <!--       <property name="hibernate.default_schema" value="transactions" /> -->
+  </properties>
+</persistence-unit>
+
+</persistence>

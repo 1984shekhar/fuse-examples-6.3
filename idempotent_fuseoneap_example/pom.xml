@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.mycompany</groupId>
+	<artifactId>PaymentBatchProcessing</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>Fuse on EAP Camel Spring Application</name>
+	<description>Fuse on EAP Camel Example using Spring</description>
+	<properties>
+		<version.maven.compiler.plugin>3.5.1</version.maven.compiler.plugin>
+		<jboss.home>${env.JBOSS_HOME}</jboss.home>
+		<version.maven.surefire.plugin>2.19.1</version.maven.surefire.plugin>
+		<server.config>standalone.xml</server.config>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<version.jboss.bom.eap>6.4.0.GA</version.jboss.bom.eap>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<camel.version>2.17.0.redhat-630187</camel.version>
+		<version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.junit>4.11</version.junit>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<version.maven.war.plugin>2.5</version.maven.war.plugin>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.bom.eap</groupId>
+				<artifactId>jboss-javaee-6.0-with-tools</artifactId>
+				<version>${version.jboss.bom.eap}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>2.17.0.redhat-630187</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	<!-- 	<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency> -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-sql</artifactId>
+			<version>2.17.0.redhat-630187</version>
+			<!-- use the same version as your Camel core version -->
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-ognl</artifactId>
+			<version>2.17.0.redhat-630187</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-bindy</artifactId>
+			<version>2.17.0.redhat-630187</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.apache-extras.camel-extra</groupId>
+			<artifactId>camel-example-hibernate</artifactId>
+			<version>2.17.0.redhat-630187</version>
+		</dependency> -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jdbc</artifactId>
+			<version>2.17.0.redhat-630187</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.18</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+	<!-- 	<dependency>
+			<artifactId>poi</artifactId>
+			<groupId>org.apache.poi</groupId>
+			<version>3.15</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.15</version>
+		</dependency> -->
+		<!-- added for mail configuration -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+			<version>2.17.0.redhat-630187</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-mail</artifactId>
+			<version>2.17.0.redhat-630187</version>
+		</dependency>
+	<!-- 	<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>4.2.16.Final</version>
+		</dependency> -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jackson</artifactId>
+			<version>2.17.0.redhat-630187</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-http</artifactId>
+			<version>2.17.0.redhat-630187</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jpa</artifactId>
+			<version>2.17.0.redhat-630187</version>
+			<!-- use the same version as your Camel core version -->
+		</dependency>
+		<!-- <dependency> <groupId>org.apache.camel</groupId> <artifactId>camel-jackson</artifactId> 
+			<version>2.17.3</version> </dependency> -->
+		<!-- <dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+			<version>2.5.0.Final</version>
+		</dependency> -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+
+	</dependencies>
+	<repositories>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>redhat-ga-repository</id>
+			<url>https://maven.repository.redhat.com/ga</url>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>redhat-ea-repository</id>
+			<url>https://maven.repository.redhat.com/earlyaccess/all</url>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>fusesource-release-repository</id>
+			<url>https://repo.fusesource.com/nexus/content/groups/public/</url>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>fusesource-earlyaccess-repository</id>
+			<url>https://repo.fusesource.com/nexus/content/groups/ea</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>redhat-ga-repository</id>
+			<url>https://maven.repository.redhat.com/ga</url>
+		</pluginRepository>
+		<pluginRepository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>redhat-ea-repository</id>
+			<url>https://maven.repository.redhat.com/earlyaccess/all</url>
+		</pluginRepository>
+		<pluginRepository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>fusesource-release-plugin-repository</id>
+			<url>https://repo.fusesource.com/nexus/content/groups/public/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>fusesource-earlyaccess-plugin-repository</id>
+			<url>https://repo.fusesource.com/nexus/content/groups/ea</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<build>
+		<testResources>
+			<testResource>
+				<filtering>true</filtering>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
+		<finalName>${project.artifactId}</finalName>
+		<!-- <filters>
+			<filter>src/main/resources/${build.profile.id}/fileLocation.properties</filter>
+		</filters> -->
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${version.maven.compiler.plugin}</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${version.maven.war.plugin}</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>${version.wildfly.maven.plugin}</version>
+				<configuration>
+					<serverConfig>${server.config}</serverConfig>
+					<port>9999</port>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+	<profiles>
+		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${version.maven.surefire.plugin}</version>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>arq-managed</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-arquillian-container-managed</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>arq-remote</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-arquillian-container-remote</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- <profile>
+			<id>dev</id>
+			The development profile is active by default
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<build.profile.id>dev</build.profile.id>
+			</properties>
+		</profile>
+		<profile>
+			<id>qa</id>
+			The development profile is active by default
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<build.profile.id>qa</build.profile.id>
+			</properties>
+		</profile>
+		<profile>
+			<id>local</id>
+			The development profile is active by default
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<build.profile.id>local</build.profile.id>
+			</properties>
+		</profile> -->
+
+
+
+	</profiles>
+</project>
