@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0"
+    xmlns:enc="http://karaf.apache.org/xmlns/jasypt/v1.0.0"
+    xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0" xmlns:jaas="http://karaf.apache.org/xmlns/jaas/v1.0.0">
+    <type-converters>
+        <bean class="org.apache.karaf.jaas.modules.properties.PropertiesConverter"/>
+    </type-converters>
+    <!-- Allow usage of System properties, especially the karaf.base property -->
+    <ext:property-placeholder
+        id="property-placeholder-f6fc239f-a875-4568-ba5d-7ab1510e99f6"
+        placeholder-prefix="$[" placeholder-suffix="]"/>
+    <jaas:config name="karaf" rank="190">
+        <jaas:module
+            className="org.apache.karaf.jaas.modules.properties.PropertiesLoginModule" flags="required">
+            users = $[karaf.base]/etc/users.properties
+        </jaas:module>
+        <jaas:module
+            className="org.apache.karaf.jaas.modules.audit.FileAuditLoginModule" flags="optional">
+            enabled=true
+            file= $[karaf.base]/data/audit.log
+        </jaas:module>
+        <jaas:module
+            className="org.apache.karaf.jaas.modules.audit.EventAdminAuditLoginModule" flags="optional">
+            enabled=true
+            topic=org/apache/karaf/login
+        </jaas:module>
+    </jaas:config>
+    <!-- The Backing Engine Factory Service for the PropertiesLoginModule -->
+    <service interface="org.apache.karaf.jaas.modules.BackingEngineFactory">
+        <bean class="org.apache.karaf.jaas.modules.properties.PropertiesBackingEngineFactory"/>
+    </service>
+</blueprint>
