@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd                            http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+	<!-- The namespace for the camelContext element in Blueprint is 'https://camel.apache.org/schema/blueprint'. 
+		Additionally, we can also define namespace prefixes we want to use them in 
+		the XPath expressions in our CBR. While it is not required to assign id's 
+		to the <camelContext/> and <route/> elements, it is a good idea to set those 
+		for runtime management purposes (logging, JMX MBeans, ...) -->
+	<camelContext id="_context1"
+		xmlns="http://camel.apache.org/schema/blueprint">
+		<route id="_route1">
+			<from uri="amq1:testQueue" />
+			<log message="Printing message: ${body}" />
+		</route>
+		<route id="_route2">
+			<from uri="timer://foo?fixedRate=true&amp;period=5000" />
+			<setBody>
+				<simple>${date:now:yyyy-MM-dd'T'HH:mm:ss:SSS}</simple>
+			</setBody>
+			<to uri="amq1:testQueue" />
+		</route>
+	</camelContext>
+
+<bean id="jmsConnectionFactory" 
+   class="org.apache.activemq.ActiveMQConnectionFactory">
+   <property name="brokerURL" value="discovery:(fabric:loadbal)" />
+   <property name="userName" value="admin"/>
+<property name="password" value="admin"/>
+</bean>
+	<bean id="pooledConnectionFactory" 
+   class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
+   <property name="maxConnections" value="2" />
+   <property name="connectionFactory" ref="jmsConnectionFactory" />
+</bean>
+ 
+<bean id="jmsConfig" 
+   class="org.apache.camel.component.jms.JmsConfiguration">
+   <property name="connectionFactory" ref="pooledConnectionFactory"/>
+</bean>
+ 
+<bean id="amq1" 
+    class="org.apache.activemq.camel.component.ActiveMQComponent">
+    <property name="configuration" ref="jmsConfig"/>
+    <property name="concurrentConsumers" value="1" />
+ 
+    <!-- if we are using transacted then enable CACHE_CONSUMER (if not using XA) to run faster
+         see more details at: http://camel.apache.org/jms
+    <property name="transacted" value="true"/>
+    <property name="cacheLevelName" value="CACHE_CONSUMER" />
+    -->
+</bean>
+</blueprint>
