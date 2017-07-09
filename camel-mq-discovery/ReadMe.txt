@@ -26,8 +26,7 @@ A) MasterSlave Topology
     Each broker must be identified by the same virtual broker name.
     Normally, each broker is deployed in a separate container. 
 
-JBossFuse:karaf@root> mq-create --create-container broker --replicas 3 --group masterslave hq-broker
-JBossFuse:karaf@root> mq-create --assign-container broker1,broker2,broker3 --group masterslave hq-broker
+JBossFuse:karaf@root> mq-create --create-container broker --replicas 2 --data /home/cpandey/activemq/hq-broker --group masterslave hq-broker
 
 BrokerUrl from clients:
 discovery:(fabric:masterslave)
