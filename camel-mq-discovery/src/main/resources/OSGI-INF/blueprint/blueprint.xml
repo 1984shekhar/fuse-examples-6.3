@@ -24,7 +24,7 @@
 
 <bean id="jmsConnectionFactory" 
    class="org.apache.activemq.ActiveMQConnectionFactory">
-   <property name="brokerURL" value="discovery:(fabric:loadbal)" />
+   <property name="brokerURL" value="discovery:(fabric:masterslave)" />
    <property name="userName" value="admin"/>
 <property name="password" value="admin"/>
 </bean>
