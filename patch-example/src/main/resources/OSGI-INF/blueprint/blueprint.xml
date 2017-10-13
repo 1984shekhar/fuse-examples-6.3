@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint default-activation="eager"
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:cxfi="http://cxf.apache.org/blueprint/core"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
+    xmlns:jpa="http://aries.apache.org/xmlns/jpa/v1.0.0"
+    xmlns:tx="http://aries.apache.org/xmlns/transactions/v1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cxf.apache.org/blueprint/jaxrs                              http://cxf.apache.org/schemas/blueprint/jaxrs.xsd                                http://cxf.apache.org/blueprint/core                                 http://cxf.apache.org/schemas/blueprint/core.xsd">
+    <!-- BEAN SERVICE -->
+    <bean class="com.mycompany.cpaas.test.patch.ExposureImpl" id="exposureImpl"/>
+    <bean class="com.mycompany.cpaas.test.patch.HttpRestCamelFilter" id="filter-header-support"/>
+    <cxfi:bus>
+        <cxfi:features>
+            <cxfi:logging/>
+        </cxfi:features>
+    </cxfi:bus>
+    <cxf:rsServer address="/multitenancy" id="rest-exposure" serviceClass="com.mycompany.cpaas.test.patch.ExposureImpl">
+        <cxf:providers>
+            <bean class="com.mycompany.cpaas.test.patch.JsonProvider" factory-method="getProvider"/>
+        </cxf:providers>
+    </cxf:rsServer>
+    <!-- CAMEL ROUTES -->
+    <camelContext id="camelContext-38cbcf4f-2786-457d-9af6-dcfaf79133d6" xmlns="http://camel.apache.org/schema/blueprint">
+        <route id="_route1">
+            <from id="_from1" uri="cxfrs:bean:rest-exposure?bindingStyle=SimpleConsumer"/>
+            <routingSlip id="_routingSlip1">
+                <simple>direct:${header.operationName}</simple>
+            </routingSlip>
+        </route>
+        <!-- SOLUTION ONE -->
+        <route id="_route2">
+            <from id="_from2" uri="direct:echoTenant"/>
+            <to id="_to1" uri="bean:exposureImpl"/>
+            <to id="_to2" uri="bean:filter-header-support"/>
+        </route>
+    </camelContext>
+</blueprint>
