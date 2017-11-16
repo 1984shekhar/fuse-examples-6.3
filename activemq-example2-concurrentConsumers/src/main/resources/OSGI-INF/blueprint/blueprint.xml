@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+    <bean class="org.apache.activemq.camel.component.ActiveMQComponent" id="activemq">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+        <property name="userName" value="admin"/>
+        <property name="password" value="admin"/>
+    </bean>
+    <!-- Here is a sample which processes the input files (leaving them in place 
+		- see the 'noop' flag), and sends them on a JMS queue. This queue is watched 
+		by another route which then performs content based routing on the messages 
+		using XPath. -->
+    <camelContext id="concurrentConsumers" xmlns="http://camel.apache.org/schema/blueprint">
+        <route id="_route1">
+            <from id="_from1" uri="activemq:queue:incomingQueue?concurrentConsumers=5"/>
+            <log id="_log1" message="route2 ${body}"/>
+        </route>
+    </camelContext>
+</blueprint>
