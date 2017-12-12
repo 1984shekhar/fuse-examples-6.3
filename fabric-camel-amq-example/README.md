@@ -195,6 +195,7 @@ JBossFuse:karaf@root> container-edit-jvm-options mychild '-Dorg.apache.activemq.
 We can view system property as:
 
 [cpandey@cpandey bin]$ ps -ef|grep org.apache.activemq.SERIALIZABLE_PACKAGES --color
+
 cpandey  29090     1 45 11:47 pts/0    00:00:36 /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.121-0.b13.el7_3.x86_64/jre/bin/java -server -Dcom.sun.management.jmxremote -Dorg.jboss.gravia.repository.storage.dir=data/repository -Dzookeeper.url=127.0.0.1:2181 -Dzookeeper.password.encode=true -Dzookeeper.password=admin -Xmx768m -Dorg.apache.activemq.SERIALIZABLE_PACKAGES=* -XX:+UnlockDiagnosticVMOptions -XX:+UnsyncloadClass -Dio.fabric8.datastore.gitGcOnLoad=true -Dio.fabric8.datastore.gitTimeout=40...........
 
 
