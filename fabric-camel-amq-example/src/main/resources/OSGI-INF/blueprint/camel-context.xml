@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="              http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd              http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+    
+    <bean id="pojo1" class="com.mycompany.objectMessage.Person"/>
+    <bean id="consumerProcessor" class="com.mycompany.objectMessage.ConsumerProcessor"/>
+    <bean id="producerProcessor" class="com.mycompany.objectMessage.ProducerProcessor"/>
+    <camelContext id="jms-example-context"
+        xmlns="http://camel.apache.org/schema/blueprint" xmlns:order="http://fabric8.com/examples/order/v7">
+
+        <route id="jms-route-consumer">
+            <from id="_from1" uri="timer://foo?fixedRate=true&amp;period=15000"/>
+            <process ref="consumerProcessor"/>
+            <to id="_to1" uri="amq:incomingOrders"/>
+        </route>
+        
+        <route id="jms-route-producer">
+            <from id="_from2" uri="amq:incomingOrders"/>
+            <process ref="producerProcessor"/>
+        </route>
+        
+       
+    </camelContext>
+</blueprint>
