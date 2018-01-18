@@ -64,6 +64,12 @@
       <artifactId>log4j-slf4j-impl</artifactId>
       <scope>runtime</scope>
     </dependency>
+     <dependency>
+        <groupId>org.apache.karaf.jaas</groupId>
+        <artifactId>org.apache.karaf.jaas.boot</artifactId>
+        <version>2.4.0.redhat-630187</version>
+    </dependency>
+
 
   </dependencies>
 
