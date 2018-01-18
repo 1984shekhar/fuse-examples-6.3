@@ -6,6 +6,6 @@ Also it shows how we can get username within the operation.
     
     one can test this using
     
-    curl  -u  admin:admin http://localhost:8181/hawtio/jolokia/exec/com.test.mbean:type=beans,name=exposeMbeanTest/hello
+    curl  -v -u  admin:admin http://localhost:8181/hawtio/jolokia/exec/com.test.mbean:type=beans,name=exposeMbeanTest/hello
 
 
