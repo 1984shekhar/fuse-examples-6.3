@@ -10,43 +10,38 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf" 
-	xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="              http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd              http://camel.apache.org/schema/blueprint/cxf http://camel.apache.org/schema/cxf/camel-cxf-blueprint.xsd              http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
-	<cxf:cxfEndpoint address="/order/" id="orderEndpoint"
-		serviceClass="camelinaction.order.OrderEndpoint" >
-		<cxf:inInterceptors>
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="              http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd              http://camel.apache.org/schema/blueprint/cxf http://camel.apache.org/schema/cxf/camel-cxf-blueprint.xsd              http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+    
+    <httpj:engine-factory bus="cxf">
+             <httpj:engine port="9090">
+      <httpj:threadingParameters minThreads="10"
+                                 maxThreads="10" />
+        </httpj:engine>
+    </httpj:engine-factory>
+    <cxf:cxfEndpoint address="http://localhost:9090/order/" id="orderEndpoint" serviceClass="camelinaction.order.OrderEndpoint">
+        <cxf:inInterceptors>
 						<bean class="camelinaction.order.HttpHeaderHandler" />
 		</cxf:inInterceptors>
-		</cxf:cxfEndpoint>
-	<camelContext id="camelContext-7365e4cf-7459-45dc-a6d4-ba16aba14ef5"
-		xmlns="http://camel.apache.org/schema/blueprint">
-		<route id="_route1">
-			<!-- route starts from the cxf webservice -->
-			<from id="_from1" uri="cxf:bean:orderEndpoint" />
-			<!-- and then create the OK reply for the webservice which is still waiting 
+    </cxf:cxfEndpoint>
+    <camelContext id="camelContext-7365e4cf-7459-45dc-a6d4-ba16aba14ef5" xmlns="http://camel.apache.org/schema/blueprint">
+        <route id="_route1">
+            <!-- route starts from the cxf webservice -->
+            <!-- and then create the OK reply for the webservice which is still waiting 
 				for a reply -->
-			<to id="_to1" uri="direct:incomingOrders" />
-			<transform id="_transform1">
-				<constant>OK</constant>
-			</transform>
-		</route>
-		<!-- test route -->
-		<route id="_route2">
-			<from id="_from2" uri="direct:incomingOrders" />
-			<log message="request received...${body}"/>
-		</route>
-	</camelContext>
-
-<!-- 	<httpj:engine-factory bus="cxf">
-		<httpj:engine port="8181">
-			<httpj:handlers>
-			
-				<bean class="camelinaction.order.DisableHttpMethod" />
-			</httpj:handlers>
-		</httpj:engine>
-	</httpj:engine-factory> -->
+            <from id="_from1" uri="cxf:bean:orderEndpoint"/>
+            <to id="_to1" uri="direct:incomingOrders"/>
+            <transform id="_transform1">
+                <constant>OK</constant>
+            </transform>
+        </route>
+        <!-- test route -->
+        <route id="_route2">
+            <from id="_from2" uri="direct:incomingOrders"/>
+            <log id="_log1" message="request received...${body}"/>
+        </route>
+    </camelContext>
 
 </blueprint>

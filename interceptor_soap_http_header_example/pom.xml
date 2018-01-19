@@ -242,6 +242,7 @@
         <configuration>
           <instructions>
             <Export-Package>camelinaction.order</Export-Package>
+          	<Import-Package>org.eclipse.jetty.server,*</Import-Package>
           </instructions>
         </configuration>
       </plugin>
