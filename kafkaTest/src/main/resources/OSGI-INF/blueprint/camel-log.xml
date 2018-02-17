@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd                            http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+	<camelContext id="_context1"
+		xmlns="http://camel.apache.org/schema/blueprint">
+		<!-- enable this for consumer part -->
+		<!-- <route id="_route1" trace="true"> <from id="_from1" uri="kafka:localhost:9092?topic=topictest&amp;groupId=group1"/> 
+			<log id="_log1" message="${in.headers} BODY ${body}"/> </route> -->
+		<onException>
+			<exception>org.apache.kafka.common.errors.TimeoutException</exception>
+			<handled><constant>true</constant></handled>
+			<log message="Exception Message: ${exception.message}" />
+			
+		</onException>
+		<route id="_route2">
+			<from id="_from2" uri="timer://foo?repeatCount=1" />
+			<setBody id="_setBody1">
+				<simple>Message creation: ${date:now:yyyy-MM-dd HH:mm:ss}</simple>
+			</setBody>
+			<to id="_to1" uri="kafka:localhost:9092?topic=test&amp;maxBlockMs=10000" />
+			<log message="Body ${in.headers}" />
+		</route>
+	</camelContext>
+</blueprint>
