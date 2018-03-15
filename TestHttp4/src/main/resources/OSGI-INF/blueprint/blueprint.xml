@@ -30,7 +30,12 @@
       While it is not required to assign id's to the <camelContext/> and <route/> elements, it is a good idea
       to set those for runtime management purposes (logging, JMX MBeans, ...)
     -->
-    <bean id="metricsRoutePolicyFactory" class="org.apache.camel.component.metrics.routepolicy.MetricsRoutePolicyFactory"/>
+      <bean id="metricsRoutePolicyFactory" class="org.apache.camel.component.metrics.routepolicy.MetricsRoutePolicyFactory">
+    <property name="useJmx" value="true"/>
+    </bean>
+    <bean id="metricsMessageHistoryFactory" class="org.apache.camel.component.metrics.messagehistory.MetricsMessageHistoryFactory">
+     <property name="useJmx" value="true"/>
+     </bean>
     <camelContext id="cbr-example-context" xmlns="http://camel.apache.org/schema/blueprint">
         <!--
           When this route is started, it will automatically create the work/cbr/input directory where you can drop the
