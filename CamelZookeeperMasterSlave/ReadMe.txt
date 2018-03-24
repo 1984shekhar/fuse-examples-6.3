@@ -21,7 +21,11 @@ For more help see the Apache Camel documentation
     
     
     In fabric environment:
-    
+profile-create testZK
+profile-edit --feature camel-zookeeper --feature camel-blueprint testZK
+profile-edit --bundle mvn:com.mycompany/camel-zookeeper-example/1.0.0-SNAPSHOT testZK
+container-add-profile abc testZK
+container-add-profile pqr testZK
     
     JBossFuse:karaf@root> container-list
 [id]   [version]  [type]  [connected]  [profiles]              [provision status]
