@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+  http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+ <bean class="com.mycompany.test.profile.LogTransaction" id="logTransaction"/>
+   
+    <sslContextParameters id="MySslContextParameter" xmlns="http://camel.apache.org/schema/blueprint">
+        <secureSocketProtocols>
+            <!-- Do NOT enable SSLv3 (POODLE vulnerability) -->
+            <secureSocketProtocol>TLSv1</secureSocketProtocol>
+            <secureSocketProtocol>TLSv1.1</secureSocketProtocol>
+            <secureSocketProtocol>TLSv1.2</secureSocketProtocol>
+        </secureSocketProtocols>
+        <keyManagers keyPassword="KeyPass">
+            <keyStore resource="etc/certs/serviceKeystore.jks" password="StorePass"/>
+        </keyManagers>
+        <trustManagers>
+            <keyStore resource="etc/certs/serviceKeystore.jks" password="StorePass"/>
+        </trustManagers>
+    </sslContextParameters>
+   
+    <camelContext id="test_rest_dsl" xmlns="http://camel.apache.org/schema/blueprint">
+        <restConfiguration bindingMode="off" component="jetty"
+            port="9091" scheme="https">
+            <endpointProperty key="sslContextParameters" value="#MySslContextParameter"/>
+		</restConfiguration>
+        <rest path="/cbr-web-services/rest/itineraries/">
+            <get uri="/hello">
+        <to uri="direct:hello"/>
+      </get>
+            <post type="com.mycompany.test.profile.Person">
+                <description>Post request</description>
+                <to uri="direct:processRequest"/>
+            </post>
+        </rest>
+        <route id="_route1">
+            <from id="_from1" uri="direct:processRequest"/>
+            <to id="_to1" uri="bean:logTransaction"/>
+        </route>
+         <route id="_route2">
+            <from id="_from1" uri="direct:hello"/>
+            <setBody><constant>HEY, ALL IS WELL</constant></setBody>
+            <log message="body--- ${body}"/>
+        </route>
+    </camelContext>
+</blueprint>
