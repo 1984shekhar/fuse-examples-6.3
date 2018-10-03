@@ -1,3 +1,7 @@
+
+keytool -genkeypair -keyalg RSA -dname "CN=Client, OU=Engineering, O=Red Hat, ST=Dublin, C=IE" -validity 365 -alias client -keypass KeyPass -keystore clientKeystore.jks -storepass StorePass
+
+keytool -genkeypair -keyalg RSA -dname "CN=Service, OU=Engineering, O=Red Hat, ST=Dublin, C=IE" -validity 365 -alias service -keypass KeyPass -keystore serviceKeystore.jks -storepass StorePass
 Camel Router Project for Blueprint (OSGi)
 =========================================
 
