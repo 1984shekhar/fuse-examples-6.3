@@ -1,0 +1,1 @@
+osgi:install -s mvn:com.redhat.support.examples/camel-example-dozer/1.0.0-SNAPSHOT
