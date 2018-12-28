@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+     xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+    <bean class="org.jboss.fuse.samples.beans.TestBean" id="testBean">
+    <property name="fileLoc" value="${result}"/>
+    </bean>
+    
+    <cm:property-placeholder id="myblueprint.placeholder" persistent-id="camel.blueprint">
+        <!-- list some properties for this test -->
+        <cm:default-properties>
+            <cm:property name="result" value="profile\:myFile.xml"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+     <reference availability="mandatory"
+        filter="(url.handler.protocol=profile)" id="resolverRef" interface="org.osgi.service.url.URLStreamHandlerService"/>
+    <camelContext id="camelContext-784062a2-7d21-449a-ba23-79d6c201ec2e"
+        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <route id="_route1">
+            <from id="_from1" uri="timer://foo?repeatCount=5"/>
+            <log id="_log1" message="route invoked"/>
+            <to id="_to1" uri="bean:testBean?method=init"/>
+            <log id="_log2" message="bean invoked"/>
+        </route>
+    </camelContext>
+</blueprint>
