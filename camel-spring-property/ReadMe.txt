@@ -1,4 +1,4 @@
-JBossFuse:karaf@root> profile-display testProfile 
+JBossFuse:karaf@root> profile-display -r testProfile 
 Profile id: testProfile
 Version   : 1.0
 Attributes: 
@@ -26,4 +26,14 @@ PID: camel.blueprint
 Other resources
 ----------------------------
 Resource: myFile.xml
-JBossFuse:karaf@root> 
+<?xml version="1.0" encoding="UTF-8"?>
+key1=value1
+
+
+
+Logs:
+
+2018-12-28 21:19:36,364 | INFO  | 16 - timer://foo | _route1                          | 146 - org.apache.camel.camel-core - 2.17.0.redhat-630356 | route invoked
+2018-12-28 21:19:36,374 | INFO  | 16 - timer://foo | TestBean                         | 142 - camel-spring-property.1.0-SNAPSHOT - 1.0.0.SNAPSHOT | <?xml version="1.0" encoding="UTF-8"?>n  | key1=value1n  | 
+2018-12-28 21:19:36,374 | INFO  | 16 - timer://foo | _route1                          | 146 - org.apache.camel.camel-core - 2.17.0.redhat-630356 | bean invoked
+
