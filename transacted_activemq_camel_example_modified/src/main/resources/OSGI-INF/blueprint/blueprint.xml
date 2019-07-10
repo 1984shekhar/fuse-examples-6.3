@@ -26,7 +26,7 @@
         destroy-method="stop" id="jmsConectionFactory">
         <property name="connectionFactory">
             <bean class="org.apache.activemq.ActiveMQConnectionFactory">
-                <property name="brokerURL" value="tcp://localhost:61616"/>
+                <property name="brokerURL" value="tcp://10.74.254.116:61646"/>
                 <property name="userName" value="admin"/>
                 <property name="password" value="admin"/>
                 <property name="redeliveryPolicy" ref="redeliveryPolicy"/>
@@ -49,21 +49,19 @@
         <property name="redeliveryPolicy" ref="myRedeliveryPolicyConfig"/>
     </bean>
     <bean class="org.apache.camel.processor.RedeliveryPolicy" id="myRedeliveryPolicyConfig">
-        <property name="maximumRedeliveries" value="2"/>
+        <property name="maximumRedeliveries" value="4"/>
         <property name="redeliveryDelay" value="5000"/>
     </bean>
     <bean class="org.apache.activemq.RedeliveryPolicy" id="redeliveryPolicy">
         <property name="maximumRedeliveries" value="3"/>
-        <property name="redeliveryDelay" value="10000"/>
+        <property name="redeliveryDelay" value="2000"/>
     </bean>
-
     <camelContext id="_context2" xmlns="http://camel.apache.org/schema/blueprint">
-        
         <route id="_route3">
+            <!--  <transacted id="_transacted1"/> -->
+            <!-- <to id="_to3" uri="activemq:queue:transactionTest"/> -->
             <from id="_from3" uri="activemq:queue:SpecialQueue"/>
             <log id="_log31" message="in.headers"/>
-            <transacted id="_transacted1"/>
-            <to id="_to3" uri="activemq:queue:transactionTest"/>
             <process id="_process3" ref="myProcessor"/>
             <log id="_log32" message="Headers.....${in.headers}.....BODY..........${body}"/>
         </route>
