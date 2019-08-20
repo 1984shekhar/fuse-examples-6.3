@@ -19,8 +19,16 @@
 3. To check number of threads analyse thread-dumps. In Red Hat Fuse 6.3, there is a jetty tab in Hawtio that can be used to easily determine thread configurations.
 ```
 jstack -l 18321 > tdump2.txt
+[cpandey@cpandey log]$ grep qtp tdump2.txt|wc -l
+28
+```
+Here 8 threads are extra, out of which 2 are for acceptor threads and 2 for selector. Other 4 threads are always there.
+
+```
+These are idle threads
 [cpandey@cpandey log]$ grep org.eclipse.jetty.util.thread.QueuedThreadPool.idleJobPoll tdump2.txt|wc -l
 24
+
 ```
 Here 4 threads are extra. I observed that even if you increase minThreads to 30 or 40, if we grep thread-dumps similarly we will get 34 or 44 total number of threads. 
 
