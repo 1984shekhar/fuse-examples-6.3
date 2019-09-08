@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<b:DocumentList xmlns:a="http://www.xchanging.com/acord/extension" xmlns:b="http://www.ACORD.org/Standards/AcordMsgSvc/1.4.0" xmlns:c="http://www.ACORD.org/standards/Jv-Ins-Reinsurance/1">
+	<b:Indicator>false</b:Indicator>
+	<b:DocumentItem>
+		<b:Document>
+			<b:DocumentId>861530f2</b:DocumentId>
+			<b:DocumentVersion>1</b:DocumentVersion>
+			<b:DocumentVersionDtTime>2019-09-03T12:12:49.927Z</b:DocumentVersionDtTime>
+			<b:DocumentURL>xyz.com/web/?desktop=ui&amp;feature=default&amp;docid=861530f2</b:DocumentURL>
+			<b:InheritIndicator>false</b:InheritIndicator>
+			<b:FileId>20171215 new loss -Уведомление 2017-12-15_2 от 15.12.2017 г. name.pdf</b:FileId>
+			<b:FileFormatCd>application/pdf</b:FileFormatCd>
+			<b:FileSize>
+				<b:NumUnits>249</b:NumUnits>
+				<b:UnitMeasurementCd>Kb</b:UnitMeasurementCd>
+			</b:FileSize>
+			<b:DocumentTypeCd>Document: Slip</b:DocumentTypeCd>
+			<b:Description/>
+			<b:ParentFolder>
+				<b:FolderReference>Slip</b:FolderReference>
+			</b:ParentFolder>
+		</b:Document>
+		<b:Owner>
+			<b:PartyId>XYZ, BKR</b:PartyId>
+			<b:PartyRoleCd>User</b:PartyRoleCd>
+		</b:Owner>
+		<b:Originator>
+			<b:PartyId>urn</b:PartyId>
+			<b:PartyRoleCd>Broker</b:PartyRoleCd>
+			<b:PartyName>XYZ</b:PartyName>
+		</b:Originator>
+	</b:DocumentItem>	
+</b:DocumentList>
