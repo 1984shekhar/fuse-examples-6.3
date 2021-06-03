@@ -24,7 +24,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<pkgGroupId>org.apache.httpcomponents</pkgGroupId>
 		<pkgArtifactId>httpclient</pkgArtifactId>
-		<pkgVersion>4.5.2</pkgVersion>
+		<pkgVersion>4.5.13</pkgVersion>
 		<servicemix.osgi.export>${servicemix.osgi.export.pkg}*;version=${pkgVersion};-split-package:=merge-first</servicemix.osgi.export>
 		<servicemix.osgi.export.pkg>mozilla,
 			org.apache.http.auth;
